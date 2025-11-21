@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LowTag - Save Money. Live Better.</title>
+    <!-- Using FontAwesome for simple icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #f2f8fd;
+            color: #2e2f32;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        button {
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        /* Header Section */
+        .top-header {
+            background-color: #0071dc;
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .logo span {
+            color: #ffc220;
+            margin-left: 8px;
+            font-size: 28px;
+        }
+
+        .search-box {
+            flex: 1;
+            display: flex;
+            max-width: 800px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 45px 10px 20px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 16px;
+            height: 40px;
+            box-sizing: border-box;
+        }
+
+        .search-button {
+            background-color: #ffc220;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2e2f32;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+        }
+
+        .action-item {
+            text-align: center;
+            color: white;
+            background: none;
+            border: none;
+            font-size: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .action-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .action-item:hover {
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .main-nav {
+            background-color: #e6f1fc;
+            padding: 12px 24px;
+            border-bottom: 1px solid #dbecfb;
+            display: flex;
+            gap: 30px;
+            overflow-x: auto;
+        }
+
+        .nav-link {
+            font-weight: 600;
+            font-size: 14px;
+            color: #2e2f32;
+            white-space: nowrap;
+        }
+
+        .nav-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 70vh;
+        }
+
+        .page {
+            display: none;
+            /* Hides all pages by default */
+            animation: fadeIn 0.3s;
+        }
+
+        .page.active {
+            display: block;
+            /* Only shows the active page */
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Home Page */
+        .hero-banner {
+            background-color: #e6f1fc;
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-text h1 {
+            font-size: 48px;
+            margin: 0 0 16px 0;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            margin: 0 0 24px 0;
+        }
+
+        .shop-button {
+            background-color: white;
+            border: 1px solid #2e2f32;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .shop-button:hover {
+            border-width: 2px;
+            padding: 9px 23px;
+        }
+
+        .section-header {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            margin-top: 40px;
+        }
+
+        /* Product Grid */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.2s;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 180px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: #2a8703;
+            margin-bottom: 4px;
+        }
+
+        .product-title {
+            font-size: 14px;
+            color: #2e2f32;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            flex-grow: 1;
+        }
+
+        .add-button {
+            background-color: white;
+            color: #0071dc;
+            border: 1px solid #0071dc;
+            padding: 8px;
+            border-radius: 20px;
+            font-weight: 600;
+            width: 100%;
+            transition: 0.1s;
+        }
+
+        .add-button:hover {
+            background-color: #f0f7ff;
+            border-width: 2px;
+            padding: 7px;
+        }
+
+        /* Login & Account Forms */
+        .auth-box {
+            background: white;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 32px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .walmart-icon {
+            height: 40px;
+            margin-bottom: 20px;
+            color: #0071dc;
+            font-size: 32px;
+        }
+
+        .form-label {
+            display: block;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #74767c;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        .primary-button {
+            background-color: #0071dc;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+
+        .primary-button:hover {
+            background-color: #005bb5;
+        }
+
+        .secondary-button {
+            background-color: white;
+            color: #0071dc;
+            border: 1px solid #0071dc;
+            width: 100%;
+            padding: 12px;
+            border-radius: 24px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        /* About & Info Pages */
+        .info-container {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .profile-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .profile-pic {
+            width: 100px;
+            height: 100px;
+            background-color: #ddd;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #666;
+        }
+
+        /* FAQ Styles */
+        .faq-item {
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            padding: 20px;
+            border: 1px solid #e3e4e5;
+        }
+
+        .faq-question {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #0071dc;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: #004f9a;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto 30px auto;
+        }
+
+        .footer-link {
+            font-size: 14px;
+            color: white;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        /* Utility for errors */
+        .error-msg {
+            color: #d01b1b;
+            font-size: 14px;
+            margin-bottom: 10px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <div class="top-header">
+        <div class="logo" onclick="showPage('home')">
+            LowTag <span><i class="fa-solid fa-sun"></i></span>
+        </div>
+
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Search everything at LowTag online and in store">
+            <button class="search-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+
+        <div class="header-actions">
+            <button class="action-item" id="auth-btn" onclick="handleAuthClick()">
+                <i class="fa-regular fa-user"></i>
+                <span id="auth-text">Sign In</span>
+            </button>
+            <button class="action-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>$0.00</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <a href="#" class="nav-link" onclick="showPage('departments')">Departments</a>
+        <a href="#" class="nav-link" onclick="showPage('services')">Services</a>
+        <a href="#" class="nav-link" onclick="showPage('home')">Deals</a>
+        <a href="#" class="nav-link" onclick="showPage('home')">Grocery</a>
+        <a href="#" class="nav-link" onclick="showPage('about')">About Us</a>
+        <a href="#" class="nav-link" onclick="showPage('contact')">Contact Us</a>
+        <a href="#" class="nav-link" onclick="showPage('faq')">FAQ</a>
+    </nav>
+
+    <div class="container">
+
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <h1>Deals for days</h1>
+                    <p>Save on top tech, home, and more.</p>
+                    <button class="shop-button">Shop all deals</button>
+                </div>
+                <!-- Placeholder for hero image -->
+                <div style="font-size: 100px; color: #0071dc;"><i class="fa-brands fa-canadian-maple-leaf"></i></div>
+            </div>
+
+            <div class="section-header">Featured Products</div>
+            <div class="product-grid">
+                <!-- Mock Products -->
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-tv fa-3x"></i></div>
+                    <div class="product-price">$298.00</div>
+                    <div class="product-title">55" Class 4K UHD LED Smart TV HDR</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-shirt fa-3x"></i></div>
+                    <div class="product-price">$14.98</div>
+                    <div class="product-title">Men's Cotton Fleece Hoodie</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-headphones fa-3x"></i></div>
+                    <div class="product-price">$129.00</div>
+                    <div class="product-title">Wireless Noise Cancelling Headphones</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-blender fa-3x"></i></div>
+                    <div class="product-price">$49.00</div>
+                    <div class="product-title">High Speed Professional Blender</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- DEPARTMENTS PAGE -->
+        <div id="departments" class="page">
+            <div class="section-header">All Departments</div>
+
+            <div class="section-header" style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                Electronics</div>
+            <div class="product-grid" style="margin-bottom: 40px;">
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-laptop fa-3x"></i></div>
+                    <div class="product-price">$499.00</div>
+                    <div class="product-title">Laptop 15.6" Screen</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-mobile-screen fa-3x"></i></div>
+                    <div class="product-price">$899.00</div>
+                    <div class="product-title">Smartphone Pro Max</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+            </div>
+
+            <div class="section-header" style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                Clothing</div>
+            <div class="product-grid" style="margin-bottom: 40px;">
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-vest fa-3x"></i></div>
+                    <div class="product-price">$25.00</div>
+                    <div class="product-title">Winter Vest - Blue</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-socks fa-3x"></i></div>
+                    <div class="product-price">$10.00</div>
+                    <div class="product-title">Cotton Socks 6-Pack</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+            </div>
+
+            <div class="section-header" style="font-size: 18px; border-bottom: 1px solid #ddd; padding-bottom: 10px;">
+                Books</div>
+            <div class="product-grid">
+                <div class="product-card">
+                    <div class="product-image"><i class="fa-solid fa-book fa-3x"></i></div>
+                    <div class="product-price">$15.99</div>
+                    <div class="product-title">Bestselling Mystery Novel</div>
+                    <button class="add-button">Add to cart</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SERVICES PAGE -->
+        <div id="services" class="page">
+            <div class="info-container">
+                <h1>Our Services</h1>
+                <p>We offer a wide range of services to help you save money and live better.</p>
+
+                <div class="faq-item">
+                    <div class="faq-question"><i class="fa-solid fa-car"></i> Auto Care Center</div>
+                    <div>Oil changes, tire installation, and battery checks.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><i class="fa-solid fa-pills"></i> Pharmacy</div>
+                    <div>Prescriptions, immunizations, and health screenings.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question"><i class="fa-solid fa-money-bill"></i> Financial Services</div>
+                    <div>Money transfers, bill pay, and check cashing.</div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- LOGIN PAGE -->
+        <div id="login" class="page">
+            <div class="auth-box">
+                <div class="walmart-icon"><i class="fa-brands fa-wolf-pack-battalion"></i></div>
+                <!-- Using generic icon for logo -->
+                <h2>Sign in</h2>
+                <p style="margin-bottom: 20px; font-size: 14px;">Use your LowTag account</p>
+
+                <div class="error-msg" id="login-error">Invalid email or password.</div>
+
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="login-email">
+
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="login-pass">
+
+                <button class="primary-button" onclick="performLogin()">Sign In</button>
+                <div style="margin: 15px 0; font-size: 12px;">Don't have an account?</div>
+                <button class="secondary-button" onclick="showPage('signup')">Create an account</button>
+            </div>
+        </div>
+
+        <!-- SIGNUP PAGE -->
+        <div id="signup" class="page">
+            <div class="auth-box">
+                <div class="walmart-icon"><i class="fa-brands fa-wolf-pack-battalion"></i></div>
+                <h2>Create your account</h2>
+                <p style="margin-bottom: 20px; font-size: 14px;">Enter your details below</p>
+
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="signup-name">
+
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input" id="signup-email">
+
+                <label class="form-label">Password</label>
+                <input type="password" class="form-input" id="signup-pass">
+
+                <button class="primary-button" onclick="performSignup()">Create Account</button>
+                <button class="secondary-button" onclick="showPage('login')" style="margin-top: 10px;">Back to
+                    Login</button>
+            </div>
+        </div>
+
+        <!-- ACCOUNT PAGE -->
+        <div id="account" class="page">
+            <div class="info-container">
+                <h1>My Account</h1>
+                <div class="profile-section">
+                    <div class="profile-pic"><i class="fa-solid fa-user"></i></div>
+                    <div>
+                        <h2 id="display-name">User Name</h2>
+                        <p id="display-email" style="color: #666;">user@example.com</p>
+                    </div>
+                </div>
+
+                <h3>Update Profile</h3>
+                <label class="form-label">New Name</label>
+                <input type="text" class="form-input" id="update-name">
+
+                <button class="primary-button" style="width: auto; padding-left: 30px; padding-right: 30px;"
+                    onclick="updateAccount()">Save Changes</button>
+
+                <div style="margin-top: 40px; border-top: 1px solid #eee; padding-top: 20px;">
+                    <button class="secondary-button" style="width: auto; border-color: #d01b1b; color: #d01b1b;"
+                        onclick="performLogout()">Sign Out</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ABOUT US PAGE -->
+        <div id="about" class="page">
+            <div class="info-container">
+                <h1 style="text-align: center;">About Us</h1>
+                <p style="font-size: 18px; line-height: 1.6;">
+                    We are a team dedicated to saving people money so they can live better. We are building the future
+                    of retail.
+                </p>
+
+                <h2 style="margin-top: 30px;">Meet Our Team</h2>
+                <div class="profile-section" style="border: 1px solid #eee; border-radius: 8px; padding: 20px;">
+                    <div class="profile-pic"><i class="fa-solid fa-user-tie"></i></div>
+                    <div>
+                        <h3>Krishna Agarwal</h3>
+                        <p>Lead Designer & Developer</p>
+                        <p>I am passionate about creating user-centric designs and scalable web applications. Check out
+                            my professional profile below.</p>
+                        <a href="https://www.linkedin.com/in/krishnaagarwaldesigns/" target="_blank"
+                            style="color: #0071dc; font-weight: bold; text-decoration: underline;">
+                            <i class="fa-brands fa-linkedin"></i> Visit My LinkedIn
+                        </a>
+                    </div>
+                </div>
+
+                <h3>Our Vision</h3>
+                <p>To be the best retailer in the hearts and minds of consumers and employees.</p>
+            </div>
+        </div>
+
+        <!-- CONTACT US PAGE -->
+        <div id="contact" class="page">
+            <div class="info-container">
+                <h1>Contact Us</h1>
+                <p>Have questions? We'd love to hear from you.</p>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                    <div>
+                        <label class="form-label">First Name</label>
+                        <input type="text" class="form-input">
+                    </div>
+                    <div>
+                        <label class="form-label">Last Name</label>
+                        <input type="text" class="form-input">
+                    </div>
+                </div>
+
+                <label class="form-label">Message</label>
+                <textarea class="form-input" style="height: 120px; font-family: inherit;"></textarea>
+
+                <button class="primary-button" onclick="alert('Message sent!')">Send Message</button>
+            </div>
+        </div>
+
+        <!-- FAQ PAGE -->
+        <div id="faq" class="page">
+            <div class="info-container">
+                <h1>Frequently Asked Questions</h1>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is your return policy?</div>
+                    <div>You have 90 days after purchase to exchange or return, unless noted in our exceptions.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How do I track my order?</div>
+                    <div>You can track your order in the Account section under "Purchase History".</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer free shipping?</div>
+                    <div>Yes, on orders over $35 or for W+ members.</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="main-footer">
+        <div class="footer-links">
+            <a href="#" class="footer-link">All Departments</a>
+            <a href="#" class="footer-link">Store Directory</a>
+            <a href="#" class="footer-link">Careers</a>
+            <a href="#" class="footer-link">Our Company</a>
+            <a href="#" class="footer-link">Sell on LowTag.com</a>
+            <a href="#" class="footer-link">Help</a>
+        </div>
+        <div class="copyright">
+            © 2024 LowTag. All Rights Reserved.
+        </div>
+    </div>
+
+    <script>
+        // Simple State Management
+        let currentUser = null;
+
+        // Pre-defined credential check
+        const SPECIAL_EMAIL = "capstone@gmail.com";
+        const SPECIAL_PASS = "1234";
+
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+
+            // Show target page
+            document.getElementById(pageId).classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        function handleAuthClick() {
+            if (currentUser) {
+                showPage('account');
+            } else {
+                showPage('login');
+            }
+        }
+
+        function performLogin() {
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-pass').value;
+            const errorMsg = document.getElementById('login-error');
+
+            // Check hardcoded credentials OR registered user
+            let storedUser = null;
+            try {
+                storedUser = JSON.parse(localStorage.getItem('walmartUser'));
+            } catch (e) { }
+
+            if ((email === SPECIAL_EMAIL && pass === SPECIAL_PASS)) {
+                // Special Admin/Capstone Login
+                currentUser = {
+                    name: "Krishna Agarwal",
+                    email: SPECIAL_EMAIL
+                };
+                loginSuccess();
+            } else if (storedUser && email === storedUser.email && pass === storedUser.pass) {
+                // Registered User Login
+                currentUser = storedUser;
+                loginSuccess();
+            } else {
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function loginSuccess() {
+            document.getElementById('login-error').style.display = 'none';
+            updateUIForLogin();
+            showPage('home');
+        }
+
+        function performSignup() {
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const pass = document.getElementById('signup-pass').value;
+
+            if (name && email && pass) {
+                const newUser = { name, email, pass };
+                localStorage.setItem('walmartUser', JSON.stringify(newUser));
+                alert("Account created! Please sign in.");
+                showPage('login');
+            } else {
+                alert("Please fill in all fields.");
+            }
+        }
+
+        function updateAccount() {
+            const newName = document.getElementById('update-name').value;
+            if (newName && currentUser) {
+                currentUser.name = newName;
+                // Update storage if it's the local user
+                let storedUser = JSON.parse(localStorage.getItem('walmartUser'));
+                if (storedUser && storedUser.email === currentUser.email) {
+                    storedUser.name = newName;
+                    localStorage.setItem('walmartUser', JSON.stringify(storedUser));
+                }
+                updateUIForLogin();
+                alert("Profile updated.");
+            }
+        }
+
+        function performLogout() {
+            currentUser = null;
+
+            document.getElementById('auth-text').innerText = "Sign In";
+            document.getElementById('auth-btn').innerHTML = '<i class="fa-regular fa-user"></i> <span id="auth-text">Sign In</span>';
+
+            // Clear input fields
+            document.getElementById('login-email').value = "";
+            document.getElementById('login-pass').value = "";
+
+            showPage('home');
+        }
+
+        function updateUIForLogin() {
+            // Update Header
+            document.getElementById('auth-text').innerText = "Account";
+            document.getElementById('auth-btn').innerHTML = '<i class="fa-solid fa-user-check"></i> <span style="font-size: 10px;">Hi, ' + currentUser.name.split(' ')[0] + '</span>';
+
+            // Update Account Page
+            document.getElementById('display-name').innerText = currentUser.name;
+            document.getElementById('display-email').innerText = currentUser.email;
+            document.getElementById('update-name').value = currentUser.name;
+        }
+
+        // Initialize
+        showPage('home');
+    </script>
+</body>
+
+</html>
