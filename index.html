@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LowTag - Save Money. Live Better.</title>
-    <!-- Using FontAwesome for simple icons -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Base Styles */
+        /* CSS */
         body {
             margin: 0;
             padding: 0;
@@ -151,13 +151,11 @@
 
         .page {
             display: none;
-            /* Hides all pages by default */
             animation: fadeIn 0.3s;
         }
 
         .page.active {
             display: block;
-            /* Only shows the active page */
         }
 
         @keyframes fadeIn {
@@ -414,7 +412,7 @@
             opacity: 0.8;
         }
 
-        /* Utility for errors */
+        /* Error Msg */
         .error-msg {
             color: #d01b1b;
             font-size: 14px;
@@ -468,13 +466,11 @@
                     <p>Save on top tech, home, and more.</p>
                     <button class="shop-button">Shop all deals</button>
                 </div>
-                <!-- Placeholder for hero image -->
                 <div style="font-size: 100px; color: #0071dc;"><i class="fa-brands fa-canadian-maple-leaf"></i></div>
             </div>
 
             <div class="section-header">Featured Products</div>
             <div class="product-grid">
-                <!-- Mock Products -->
                 <div class="product-card">
                     <div class="product-image"><i class="fa-solid fa-tv fa-3x"></i></div>
                     <div class="product-price">$298.00</div>
@@ -744,121 +740,108 @@
     </div>
 
     <script>
-        // Simple State Management
         let currentUser = null;
 
-        // Pre-defined credential check
         const SPECIAL_EMAIL = "capstone@gmail.com";
         const SPECIAL_PASS = "1234";
 
         function showPage(pageId) {
-            // Hide all pages
             const pages = document.querySelectorAll('.page');
             pages.forEach(page => page.classList.remove('active'));
 
-            // Show target page
             document.getElementById(pageId).classList.add('active');
 
-            // Scroll to top
             window.scrollTo(0, 0);
         }
 
-        function handleAuthClick() {
-            if (currentUser) {
-                showPage('account');
-            } else {
-                showPage('login');
-            }
-        }
+        // function handleAuthClick() {
+        //     if (currentUser) {
+        //         showPage('account');
+        //     } else {
+        //         showPage('login');
+        //     }
+        // }
 
-        function performLogin() {
-            const email = document.getElementById('login-email').value;
-            const pass = document.getElementById('login-pass').value;
-            const errorMsg = document.getElementById('login-error');
+        // function performLogin() {
+        //     const email = document.getElementById('login-email').value;
+        //     const pass = document.getElementById('login-pass').value;
+        //     const errorMsg = document.getElementById('login-error');
 
-            // Check hardcoded credentials OR registered user
-            let storedUser = null;
-            try {
-                storedUser = JSON.parse(localStorage.getItem('walmartUser'));
-            } catch (e) { }
+        //     let storedUser = null;
+        //     try {
+        //         storedUser = JSON.parse(localStorage.getItem('walmartUser'));
+        //     } catch (e) { }
 
-            if ((email === SPECIAL_EMAIL && pass === SPECIAL_PASS)) {
-                // Special Admin/Capstone Login
-                currentUser = {
-                    name: "Krishna Agarwal",
-                    email: SPECIAL_EMAIL
-                };
-                loginSuccess();
-            } else if (storedUser && email === storedUser.email && pass === storedUser.pass) {
-                // Registered User Login
-                currentUser = storedUser;
-                loginSuccess();
-            } else {
-                errorMsg.style.display = 'block';
-            }
-        }
+        //     if ((email === SPECIAL_EMAIL && pass === SPECIAL_PASS)) {
+        //         currentUser = {
+        //             name: "Krishna Agarwal",
+        //             email: SPECIAL_EMAIL
+        //         };
+        //         loginSuccess();
+        //     } else if (storedUser && email === storedUser.email && pass === storedUser.pass) {
+        //         currentUser = storedUser;
+        //         loginSuccess();
+        //     } else {
+        //         errorMsg.style.display = 'block';
+        //     }
+        // }
 
-        function loginSuccess() {
-            document.getElementById('login-error').style.display = 'none';
-            updateUIForLogin();
-            showPage('home');
-        }
+        // function loginSuccess() {
+        //     document.getElementById('login-error').style.display = 'none';
+        //     updateUIForLogin();
+        //     showPage('home');
+        // }
 
-        function performSignup() {
-            const name = document.getElementById('signup-name').value;
-            const email = document.getElementById('signup-email').value;
-            const pass = document.getElementById('signup-pass').value;
+        // function performSignup() {
+        //     const name = document.getElementById('signup-name').value;
+        //     const email = document.getElementById('signup-email').value;
+        //     const pass = document.getElementById('signup-pass').value;
 
-            if (name && email && pass) {
-                const newUser = { name, email, pass };
-                localStorage.setItem('walmartUser', JSON.stringify(newUser));
-                alert("Account created! Please sign in.");
-                showPage('login');
-            } else {
-                alert("Please fill in all fields.");
-            }
-        }
+        //     if (name && email && pass) {
+        //         const newUser = { name, email, pass };
+        //         localStorage.setItem('walmartUser', JSON.stringify(newUser));
+        //         alert("Account created! Please sign in.");
+        //         showPage('login');
+        //     } else {
+        //         alert("Please fill in all fields.");
+        //     }
+        // }
 
-        function updateAccount() {
-            const newName = document.getElementById('update-name').value;
-            if (newName && currentUser) {
-                currentUser.name = newName;
-                // Update storage if it's the local user
-                let storedUser = JSON.parse(localStorage.getItem('walmartUser'));
-                if (storedUser && storedUser.email === currentUser.email) {
-                    storedUser.name = newName;
-                    localStorage.setItem('walmartUser', JSON.stringify(storedUser));
-                }
-                updateUIForLogin();
-                alert("Profile updated.");
-            }
-        }
+        // function updateAccount() {
+        //     const newName = document.getElementById('update-name').value;
+        //     if (newName && currentUser) {
+        //         currentUser.name = newName;\
+        //         let storedUser = JSON.parse(localStorage.getItem('walmartUser'));
+        //         if (storedUser && storedUser.email === currentUser.email) {
+        //             storedUser.name = newName;
+        //             localStorage.setItem('walmartUser', JSON.stringify(storedUser));
+        //         }
+        //         updateUIForLogin();
+        //         alert("Profile updated.");
+        //     }
+        // }
 
-        function performLogout() {
-            currentUser = null;
+        // function performLogout() {
+        //     currentUser = null;
 
-            document.getElementById('auth-text').innerText = "Sign In";
-            document.getElementById('auth-btn').innerHTML = '<i class="fa-regular fa-user"></i> <span id="auth-text">Sign In</span>';
+        //     document.getElementById('auth-text').innerText = "Sign In";
+        //     document.getElementById('auth-btn').innerHTML = '<i class="fa-regular fa-user"></i> <span id="auth-text">Sign In</span>';
 
-            // Clear input fields
-            document.getElementById('login-email').value = "";
-            document.getElementById('login-pass').value = "";
+        //     document.getElementById('login-email').value = "";
+        //     document.getElementById('login-pass').value = "";
 
-            showPage('home');
-        }
+        //     showPage('home');
+        // }
 
-        function updateUIForLogin() {
-            // Update Header
-            document.getElementById('auth-text').innerText = "Account";
-            document.getElementById('auth-btn').innerHTML = '<i class="fa-solid fa-user-check"></i> <span style="font-size: 10px;">Hi, ' + currentUser.name.split(' ')[0] + '</span>';
+        // function updateUIForLogin() {
+        //     document.getElementById('auth-text').innerText = "Account";
+        //     document.getElementById('auth-btn').innerHTML = '<i class="fa-solid fa-user-check"></i> <span style="font-size: 10px;">Hi, ' + currentUser.name.split(' ')[0] + '</span>';
 
-            // Update Account Page
-            document.getElementById('display-name').innerText = currentUser.name;
-            document.getElementById('display-email').innerText = currentUser.email;
-            document.getElementById('update-name').value = currentUser.name;
-        }
+        //     document.getElementById('display-name').innerText = currentUser.name;
+        //     document.getElementById('display-email').innerText = currentUser.email;
+        //     document.getElementById('update-name').value = currentUser.name;
+        // }
 
-        // Initialize
         showPage('home');
     </script>
 </body>
